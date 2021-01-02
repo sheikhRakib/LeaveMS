@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\LeaveType;
 use App\Models\MaxLeaveInfo;
 use Illuminate\Http\Request;
 
@@ -19,7 +20,7 @@ class PagesController extends Controller
 
     public function leaveApplicationView()
     {
-        $data['maxLeaveInfos'] = MaxLeaveInfo::all();
+        $data['leaveTypes'] = LeaveType::all();
         return view('pages.application', $data);
     }
 

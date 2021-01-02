@@ -5,16 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class MaxLeaveInfo extends Model
+class LeaveType extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'leave_type',
+        'type',
         'days',
     ];
 
-    public function getLeaveTypeAttribute($value)
+    public function getTypeAttribute($value)
     {
         return ucwords($value);
     }

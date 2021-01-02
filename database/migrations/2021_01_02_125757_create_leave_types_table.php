@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateMaxLeaveInfosTable extends Migration
+class CreateLeaveTypesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,9 @@ class CreateMaxLeaveInfosTable extends Migration
      */
     public function up()
     {
-        Schema::create('max_leave_infos', function (Blueprint $table) {
+        Schema::create('leave_types', function (Blueprint $table) {
             $table->id();
-            $table->string('leave_type');
+            $table->string('type');
             $table->integer('days');
             $table->timestamps();
         });
@@ -28,6 +28,6 @@ class CreateMaxLeaveInfosTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('max_leave_infos');
+        Schema::dropIfExists('leave_types');
     }
 }

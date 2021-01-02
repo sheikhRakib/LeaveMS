@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\LeaveApplicationController;
 use App\Http\Controllers\PagesController;
 use Illuminate\Support\Facades\Route;
 
@@ -16,3 +17,4 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [PagesController::class, 'redirectToHomeView'])->name('indexView');
 Route::get('/home', [PagesController::class, 'homeView'])->name('homeView');
 Route::get('/apply', [PagesController::class, 'leaveApplicationView'])->name('applyView');
+Route::post('/apply', [LeaveApplicationController::class, 'store'])->name('store');
