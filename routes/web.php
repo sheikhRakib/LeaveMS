@@ -18,3 +18,6 @@ Route::get('/', [PagesController::class, 'redirectToHomeView'])->name('indexView
 Route::get('/home', [PagesController::class, 'homeView'])->name('homeView');
 Route::get('/apply', [PagesController::class, 'leaveApplicationView'])->name('applyView');
 Route::post('/apply', [LeaveApplicationController::class, 'store'])->name('store');
+
+Route::get('/action', [PagesController::class, 'actionView'])->name('actionView');
+Route::post('/action', [LeaveApplicationController::class, 'store'])->name('update');

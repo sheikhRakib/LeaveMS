@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\LeaveApplication;
 use App\Models\LeaveType;
 use App\Models\MaxLeaveInfo;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class PagesController extends Controller
 {
@@ -12,10 +15,24 @@ class PagesController extends Controller
     {
         $this->middleware('auth');
     }
+    
+    public function redirectToHomeView()
+    {
+        return redirect()->route('homeView');
+    }
 
     public function homeView()
     {
-        return view('pages.home');
+        $data['myApplications'] = LeaveApplication::MyApplications()
+        ->AddLeaveType()
+        ->paginate(5);
+
+        $data['leaveStat'] = LeaveApplication::MyApplications()
+        ->select('status', DB::raw('count(status) as total'))
+        ->groupBy('status')
+        ->pluck('total','status');
+        
+        return view('pages.home', $data);
     }
 
     public function leaveApplicationView()
@@ -24,8 +41,8 @@ class PagesController extends Controller
         return view('pages.application', $data);
     }
 
-    public function redirectToHomeView()
+    public function actionView()
     {
-        return redirect()->route('homeView');
+        return "dsa";
     }
 }

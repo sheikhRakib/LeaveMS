@@ -5,22 +5,93 @@
     <div class="row">
         <div class="col-md-3">
             <div class="card">
-                <div class="card-body">
+                <div class="card-body px-0">
                     <div class="card-title text-center">
                         <span>Hello,</span>
-                        <span class="text-primary font-italic">{{ Auth::user()->name }}</span>
+                        <span class="display-5 font-italic">{{ Auth::user()->name }}</span>
                     </div>
+
                     <hr>
-                    <a href="#" class="btn btn-secondary btn-block">Notifications</a>
+                    <a href="#" class="btn btn-secondary btn-block">
+                        <span>Notifications</span>
+                        <span class="badge badge-primary badge-pill">14</span>
+                    </a>
                     <a href="{{ Route('applyView') }}" class="btn btn-secondary btn-block">Leave Application</a>
+                    <a href="{{ Route('actionView') }}" class="btn btn-secondary btn-block">Actions</a>
                 </div>
             </div>
         </div>
-        <div class="col-md-9">
+        <div class="col-md-9 mb-5">
+            <div class="card mb-4">
+                <div class="card-header display-5">Application Data</div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-6 col-md-3 mb-3">
+                            <div class="card">
+                                <div class="card-header">Total</div>
+                                @php
+                                $total = 0;
+                                    foreach($leaveStat as $ls){
+                                        $total += $ls;
+                                    }
+                                @endphp
+                                <div class="card-body">{{ $total }}</div>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-3 mb-3">
+
+                            <div class="card">
+                                <div class="card-header">Pending</div>
+                                <div class="card-body">{{ $leaveStat['pending'] }}</div>
+                            </div>
+                        </div>
+
+                        <div class="col-6 col-md-3 mb-3">
+                            <div class="card">
+                                <div class="card-header">Approved</div>
+                                <div class="card-body">{{ $leaveStat['approved'] ?? 0 }}</div>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-3 mb-3">
+                            <div class="card">
+                                <div class="card-header">Rejected</div>
+                                <div class="card-body">{{ $leaveStat['rejected'] ?? 0 }}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div class="card">
-                <div class="card">
-                    <div class="card-header">dsa</div>
-                    <div class="card-body">sad</div>
+                <div class="card-header pb-0">
+                    <span class="display-5">My Applications</span>
+                    <span class="float-right">{{ $myApplications->links('pagination.bootstrap-4') }}</span><br>
+
+                </div>
+                <div class="card-body p-0">
+                    <div class="list-group" id="applications">
+                        @forelse ($myApplications as $application)
+                        <button id="btn{{$application->id}}" type="button"
+                            class="list-group-item list-group-item-action clearfix" data-toggle="modal"
+                            data-target="#modal{{$application->id}}">
+                            <span class="float-left">{{ $application->start_date }} @if ($application->end_date)
+                                - {{ $application->end_date }}
+                                @endif
+                            </span>                             
+                            @if ($application->status == 'approved')
+                            <span class="badge badge-pill badge-success float-right">{{ $application->status }}</span>
+                            @elseif($application->status == 'rejected')
+                            <span class="badge badge-pill badge-danger float-right">{{ $application->status }}</span>
+                            @else
+                            <span class="badge badge-pill badge-dark float-right">{{ $application->status }}</span>
+                            @endif
+                        </button>
+
+                        <x-modal.ownApplication :application="$application" />
+                        @empty
+                        <div class="d-block px-3">No applications yet</div>
+                        @endforelse
+                    </div>
                 </div>
             </div>
         </div>
@@ -29,3 +100,21 @@
 
 </main>
 @endsection
+
+@push('css')
+<style>
+    .display-5 {
+        font-size: 1.5rem !important;
+    }
+
+</style>
+@endpush
+
+@push('js')
+<script>
+    $('#applications button').on('click', function (e) {
+        console.log($(this).attr('id'));
+    });
+
+</script>
+@endpush
