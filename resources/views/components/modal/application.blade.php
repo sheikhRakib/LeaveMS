@@ -20,6 +20,10 @@
                     </div>
                 </div>
                 <div class="row">
+                    <div class="col-3 text-right">Applier</div>
+                    <div class="col-9">{{ $application->applier_name }}</div>
+                </div>
+                <div class="row">
                     <div class="col-3 text-right">Period</div>
                     <div class="col-9">{{ $application->start_date }} @if ($application->end_date)
                         - {{ $application->end_date }} @endif
@@ -34,23 +38,9 @@
                 <div class="row">
                     <div class="col-3 text-right">Type</div>
                     <div class="col-9">
-                        {{ $application->type }}
+                        {{ $application->leave_type }}
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-3 text-right">Status</div>
-                    <div class="col-9">
-                        {{ $application->status }}
-                    </div>
-                </div>
-                @if ($application->status == 'rejected' || $application->status == 'approved' )
-                <div class="row">
-                    <div class="col-3 text-right">Remarks</div>
-                    <div class="col-9">
-                        {{ $application->remarks }}
-                    </div>
-                </div>
-                @endif
                 <div class="row">
                     <div class="col-3 text-right">Reason</div>
                     <div class="col-9">
@@ -59,9 +49,25 @@
                             <p class="text-muted">{{ $application->information }}</p>
                         </details>
                     </div>
-
                 </div>
+                <form method="POST" action="{{ Route('update', [$application->id]) }}">
+                    @csrf
+
+                    <!-- ./Remarks -->
+                    <div class="form-group row">
+                        <label for="remarks" class="col-3 col-form-label text-md-right text-md">Remarks</label>
+                        <div class="col-9">
+                            <textarea class="form-control" id="remarks" name="remarks" rows="5"
+                                placeholder="Write a note..."></textarea>
+                        </div>
+                    </div>
+                    <!-- ./Remarks -->
+
+                    <button type="submit" class="btn btn-primary float-right ml-2" name="approved">Approve</button>
+                    <button type="submit" class="btn btn-danger float-right" name="rejected">Reject</button>
+                </form>
             </div>
+
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>

@@ -27,7 +27,7 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-6 col-md-3 mb-3">
-                            <div class="card">
+                            <div class="card text-center">
                                 <div class="card-header">Total</div>
                                 @php
                                 $total = 0;
@@ -40,20 +40,20 @@
                         </div>
                         <div class="col-6 col-md-3 mb-3">
 
-                            <div class="card">
+                            <div class="card text-center">
                                 <div class="card-header">Pending</div>
-                                <div class="card-body">{{ $leaveStat['pending'] }}</div>
+                                <div class="card-body">{{ $leaveStat['pending'] ?? 0 }}</div>
                             </div>
                         </div>
 
                         <div class="col-6 col-md-3 mb-3">
-                            <div class="card">
+                            <div class="card text-center">
                                 <div class="card-header">Approved</div>
                                 <div class="card-body">{{ $leaveStat['approved'] ?? 0 }}</div>
                             </div>
                         </div>
                         <div class="col-6 col-md-3 mb-3">
-                            <div class="card">
+                            <div class="card text-center">
                                 <div class="card-header">Rejected</div>
                                 <div class="card-body">{{ $leaveStat['rejected'] ?? 0 }}</div>
                             </div>
@@ -71,22 +71,7 @@
                 <div class="card-body p-0">
                     <div class="list-group" id="applications">
                         @forelse ($myApplications as $application)
-                        <button id="btn{{$application->id}}" type="button"
-                            class="list-group-item list-group-item-action clearfix" data-toggle="modal"
-                            data-target="#modal{{$application->id}}">
-                            <span class="float-left">{{ $application->start_date }} @if ($application->end_date)
-                                - {{ $application->end_date }}
-                                @endif
-                            </span>                             
-                            @if ($application->status == 'approved')
-                            <span class="badge badge-pill badge-success float-right">{{ $application->status }}</span>
-                            @elseif($application->status == 'rejected')
-                            <span class="badge badge-pill badge-danger float-right">{{ $application->status }}</span>
-                            @else
-                            <span class="badge badge-pill badge-dark float-right">{{ $application->status }}</span>
-                            @endif
-                        </button>
-
+                        <x-preview.ownApplication :application="$application" />
                         <x-modal.ownApplication :application="$application" />
                         @empty
                         <div class="d-block px-3">No applications yet</div>
@@ -108,13 +93,4 @@
     }
 
 </style>
-@endpush
-
-@push('js')
-<script>
-    $('#applications button').on('click', function (e) {
-        console.log($(this).attr('id'));
-    });
-
-</script>
 @endpush

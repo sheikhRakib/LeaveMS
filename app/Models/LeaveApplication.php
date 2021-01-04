@@ -39,7 +39,8 @@ class LeaveApplication extends Model
             'leave_applications.information', 
             'leave_applications.start_date',
             'leave_applications.end_date', 
-            'leave_applications.status'
+            'leave_applications.status',
+            'leave_applications.remarks',
         );
     }
     

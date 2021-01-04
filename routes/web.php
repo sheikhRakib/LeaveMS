@@ -20,4 +20,4 @@ Route::get('/apply', [PagesController::class, 'leaveApplicationView'])->name('ap
 Route::post('/apply', [LeaveApplicationController::class, 'store'])->name('store');
 
 Route::get('/action', [PagesController::class, 'actionView'])->name('actionView');
-Route::post('/action', [LeaveApplicationController::class, 'store'])->name('update');
+Route::post('/action/{application}', [LeaveApplicationController::class, 'update'])->name('update');

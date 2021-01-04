@@ -43,6 +43,21 @@ class PagesController extends Controller
 
     public function actionView()
     {
-        return "dsa";
+        $data['applications'] = LeaveApplication::where('status', 'pending')
+        ->join('users', 'users.id', '=', 'leave_applications.applier_user_id')
+        ->join('leave_types', 'leave_types.id', '=', 'leave_applications.leave_type_id')
+        ->select(
+            'leave_applications.id as id', 
+            'leave_applications.reason',
+            'leave_applications.information',
+            'users.name as applier_name',
+            'leave_applications.start_date',
+            'leave_applications.end_date',
+            'leave_applications.status',
+            'leave_types.type as leave_type',
+            'leave_applications.created_at'
+        )->get();
+
+        return view('pages.action', $data);
     }
 }
