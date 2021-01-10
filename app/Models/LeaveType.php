@@ -14,8 +14,8 @@ class LeaveType extends Model
         'days',
     ];
 
-    public function getTypeAttribute($value)
-    {
-        return ucwords($value);
-    }
+    // public function getTypeAttribute($value)
+    // {
+    //     return ucwords($value);
+    // }
 }

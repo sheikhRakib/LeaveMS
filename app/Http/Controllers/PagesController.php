@@ -4,9 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\LeaveApplication;
 use App\Models\LeaveType;
-use App\Models\MaxLeaveInfo;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class PagesController extends Controller
@@ -23,6 +20,19 @@ class PagesController extends Controller
 
     public function homeView()
     {
+        $types = LeaveType::all();
+        $data['types'] = $types;
+        $apps = LeaveApplication::myApplications()
+        ->where('status', 'approved')
+        ->addLeaveType()
+        ->get();
+        foreach ($types as $type) {
+            $data['leaveCount'][$type->type] = 0;
+        }
+        foreach ($apps as $app) {
+            $data['leaveCount'][$app->type] += $app->duration;
+        }
+
         $data['myApplications'] = LeaveApplication::MyApplications()
         ->AddLeaveType()
         ->paginate(5);

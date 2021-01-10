@@ -16,8 +16,12 @@ use Illuminate\Support\Facades\Route;
 */
 Route::get('/', [PagesController::class, 'redirectToHomeView'])->name('indexView');
 Route::get('/home', [PagesController::class, 'homeView'])->name('homeView');
-Route::get('/apply', [PagesController::class, 'leaveApplicationView'])->name('applyView');
-Route::post('/apply', [LeaveApplicationController::class, 'store'])->name('store');
 
-Route::get('/action', [PagesController::class, 'actionView'])->name('actionView');
-Route::post('/action/{application}', [LeaveApplicationController::class, 'update'])->name('update');
+Route::group(['middleware' => ['can:application.create']], function () {
+    Route::get('/apply', [PagesController::class, 'leaveApplicationView'])->name('applyView');
+    Route::post('/apply', [LeaveApplicationController::class, 'store'])->name('store');
+});
+Route::group(['middleware' => ['can:application.authorize']], function () {
+    Route::get('/action', [PagesController::class, 'actionView'])->name('actionView');
+    Route::post('/action/{application}', [LeaveApplicationController::class, 'update'])->name('update');
+});

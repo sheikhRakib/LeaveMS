@@ -16,8 +16,12 @@
                         <span>Notifications</span>
                         <span class="badge badge-primary badge-pill">14</span>
                     </a>
+                    @can('application.create')
                     <a href="{{ Route('applyView') }}" class="btn btn-secondary btn-block">Leave Application</a>
+                    @endcan
+                    @can('application.authorize')
                     <a href="{{ Route('actionView') }}" class="btn btn-secondary btn-block">Actions</a>
+                    @endcan
                 </div>
             </div>
         </div>
@@ -31,9 +35,7 @@
                                 <div class="card-header">Total</div>
                                 @php
                                 $total = 0;
-                                    foreach($leaveStat as $ls){
-                                        $total += $ls;
-                                    }
+                                foreach($leaveStat as $ls) $total += $ls;
                                 @endphp
                                 <div class="card-body">{{ $total }}</div>
                             </div>
@@ -61,7 +63,47 @@
                     </div>
                 </div>
             </div>
+            <div id="accordion">
+                <div class="card">
+                    <div class="card-header" id="headingTwo">
+                        <h5 class="mb-0">
+                            <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo"
+                                aria-expanded="false" aria-controls="collapseTwo">
+                                Leave Balance
+                            </button>
+                        </h5>
+                    </div>
+                    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+                        <div class="card-body">
+                            <table class="table table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Type</th>
+                                        <th>Allowance Per Year (days)</th>
+                                        <th>Used (days)</th>
+                                        <th>Remaining (days)</th>
+                                    </tr>
+                                </thead>
 
+                                <tbody>
+                                    @forelse ($types as $type)
+                                    <tr>
+                                        <td>{{ $type->type }}</td>
+                                        <td>{{ $type->days }}</td>
+                                        <td>{{ $leaveCount[$type->type] }}</td>
+                                        <td>{{ $type->days - $leaveCount[$type->type] }}</td>
+                                    </tr>
+                                    @empty
+                                    <tr>
+                                        <td colspan="4">No Data</td>
+                                    </tr>
+                                    @endforelse
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="card">
                 <div class="card-header pb-0">
                     <span class="display-5">My Applications</span>
@@ -81,8 +123,6 @@
             </div>
         </div>
     </div>
-
-
 </main>
 @endsection
 
