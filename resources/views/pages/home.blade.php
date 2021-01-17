@@ -12,9 +12,10 @@
                     </div>
 
                     <hr>
-                    <a href="#" class="btn btn-secondary btn-block">
+                    <a href="{{ route('notificationView') }}" class="btn btn-secondary btn-block">
                         <span>Notifications</span>
-                        <span class="badge badge-primary badge-pill">14</span>
+                        @php $cn = count(Auth::user()->Unreadnotifications) @endphp
+                        @if($cn)<span class="badge badge-primary badge-pill">{{ $cn }}</span> @endif
                     </a>
                     @can('application.create')
                     <a href="{{ Route('applyView') }}" class="btn btn-secondary btn-block">Leave Application</a>

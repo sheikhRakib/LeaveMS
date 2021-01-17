@@ -16,6 +16,8 @@ use Illuminate\Support\Facades\Route;
 */
 Route::get('/', [PagesController::class, 'redirectToHomeView'])->name('indexView');
 Route::get('/home', [PagesController::class, 'homeView'])->name('homeView');
+Route::get('/notifications', [PagesController::class, 'notificationView'])->name('notificationView');
+Route::get('/notifications/markasread', [PagesController::class, 'markAsRead'])->name('markAsRead');
 
 Route::group(['middleware' => ['can:application.create']], function () {
     Route::get('/apply', [PagesController::class, 'leaveApplicationView'])->name('applyView');

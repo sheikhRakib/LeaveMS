@@ -15,6 +15,11 @@ class LeaveApplication extends Model
         'start_date' => 'date',
     ];
 
+    public function applier()
+    {
+        return $this->hasOne(User::class, 'id', 'applier_user_id');
+    }
+
     public function getStartDateAttribute($value)
     {
         return (new Carbon($value))->toFormattedDateString();
@@ -22,6 +27,11 @@ class LeaveApplication extends Model
     public function getEndDateAttribute($value)
     {
         return ($value) ? (new Carbon($value))->toFormattedDateString() : $value;
+    }
+
+    public function getCreatedAtAttribute($value)
+    {
+        return (new Carbon($value))->toFormattedDateString();
     }
 
     public function getDurationAttribute()

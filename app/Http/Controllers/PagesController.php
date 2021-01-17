@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\LeaveApplication;
 use App\Models\LeaveType;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class PagesController extends Controller
@@ -69,5 +70,16 @@ class PagesController extends Controller
         )->get();
 
         return view('pages.action', $data);
+    }
+
+    public function NotificationView()
+    {
+        return view('pages.notification');
+    }
+
+    public function markAsRead()
+    {
+        Auth::user()->UnreadNotifications->markAsRead();
+        return redirect()->route('homeView');
     }
 }
